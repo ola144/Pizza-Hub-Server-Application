@@ -16,6 +16,7 @@ import swaggerSpec from "./swagger.js";
 const allowedOrigins = [
   "http://localhost:5173",
   "https://pizza-hub-server-application.onrender.com",
+  "https://pizza-hub-kappa.vercel.app",
 ];
 
 const app = express();
