@@ -1,4 +1,4 @@
-const swaggerSpec = {
+const swaggerOptions = {
   openapi: "3.0.0",
   info: {
     title: "PizzaHub API",
@@ -277,4 +277,4 @@ const swaggerSpec = {
   },
 };
 
-export default swaggerSpec;
+export default swaggerOptions;

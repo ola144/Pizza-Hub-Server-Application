@@ -11,7 +11,7 @@ import paymentRoutes from "./routes/payment.routes.js";
 import adminOrderRoutes from "./routes/admin-order.routes.js";
 
 import { razorpayWebhook } from "./controllers/payment.controller.js";
-import swaggerSpec from "./swagger.js";
+import swaggerOptions from "./swagger.js";
 
 // const swaggerOptions = {
 //   definition: {
@@ -31,7 +31,7 @@ import swaggerSpec from "./swagger.js";
 //   apis: ["./src/routes/*.js", "./src/controllers/*.js"],
 // };
 
-const swaggerSpec = swaggerJsdoc(swaggerSpec);
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 const allowedOrigins = [
   "http://localhost:5173",
