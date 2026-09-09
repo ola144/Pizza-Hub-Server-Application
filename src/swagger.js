@@ -165,6 +165,7 @@ const swaggerOptions = {
                     name: { type: "string" },
                     price: { type: "number" },
                     stock: { type: "number" },
+                    threshold: { type: "number" },
                   },
                 },
               },
@@ -178,10 +179,82 @@ const swaggerOptions = {
       "/orders": {
         post: {
           tags: ["Orders"],
-          summary: "Create a new customer order",
+          summary:
+            "Creates a new pizza order from the selected base, sauce, cheese, and optional vegetables.",
           security: [{ cookieAuth: [] }],
+          requestBody: {
+            required: true,
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+
+                  required: ["baseId", "sauceId", "cheeseId"],
+
+                  properties: {
+                    baseId: {
+                      type: "string",
+                      description: "MongoDB ID of the selected pizza base",
+                      example: "68c123456789abcdef123456",
+                    },
+
+                    sauceId: {
+                      type: "string",
+                      description: "MongoDB ID of the selected pizza sauce",
+                      example: "68c123456789abcdef123457",
+                    },
+
+                    cheeseId: {
+                      type: "string",
+                      description: "MongoDB ID of the selected cheese",
+                      example: "68c123456789abcdef123458",
+                    },
+
+                    vegetableIds: {
+                      type: "array",
+                      description:
+                        "MongoDB IDs of the selected vegetables. Multiple vegetables can be selected.",
+                      items: {
+                        type: "string",
+                        example: "68c123456789abcdef123459",
+                      },
+                      example: [
+                        "68c123456789abcdef123459",
+                        "68c123456789abcdef123460",
+                        "68c123456789abcdef123461",
+                      ],
+                    },
+                  },
+                },
+                example: {
+                  baseId: "68c123456789abcdef123456",
+                  sauceId: "68c123456789abcdef123457",
+                  cheeseId: "68c123456789abcdef123458",
+                  vegetableIds: [
+                    "68c123456789abcdef123459",
+                    "68c123456789abcdef123460",
+                  ],
+                },
+              },
+            },
+          },
           responses: {
-            201: { description: "Order created" },
+            201: {
+              description: "Order created successfully",
+            },
+
+            400: {
+              description:
+                "Invalid ingredients, duplicate ingredients, or insufficient stock",
+            },
+
+            401: {
+              description: "Unauthorized",
+            },
+
+            500: {
+              description: "Internal server error",
+            },
           },
         },
         get: {
