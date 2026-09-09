@@ -321,9 +321,13 @@ const swaggerOptions = {
               name: "id",
               in: "path",
               required: true,
-              schema: { type: "string" },
+              schema: {
+                type: "string",
+              },
+              example: "68c123456789abcdef123499",
             },
           ],
+
           requestBody: {
             required: true,
             content: {
@@ -342,14 +346,30 @@ const swaggerOptions = {
                         "delivered",
                         "cancelled",
                       ],
+                      example: "in_kitchen",
                     },
                   },
                 },
               },
             },
           },
+
           responses: {
-            200: { description: "Order status updated" },
+            200: {
+              description: "Order status updated successfully",
+            },
+            400: {
+              description: "Invalid status transition",
+            },
+            401: {
+              description: "Unauthorized",
+            },
+            403: {
+              description: "Admin access required",
+            },
+            404: {
+              description: "Order not found",
+            },
           },
         },
       },
