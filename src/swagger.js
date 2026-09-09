@@ -1,21 +1,26 @@
+import swaggerJSDoc from "swagger-jsdoc";
+
 const swaggerOptions = {
-  openapi: "3.0.0",
-  info: {
-    title: "PizzaHub API",
-    version: "1.0.0",
-    description:
-      "API documentation for the PizzaHub pizza ordering and inventory management application.",
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "PizzaHub API",
+      version: "1.0.0",
+      description:
+        "API documentation for the PizzaHub pizza ordering and inventory management application.",
+    },
+    servers: [
+      {
+        url: "http://localhost:5000",
+        description: "Local development server",
+      },
+      {
+        url: "https://pizza-hub-server-application.onrender.com",
+        description: "Production server",
+      },
+    ],
+    apis: ["./src/routes/*.js", "./src/controllers/*.js"],
   },
-  servers: [
-    {
-      url: "http://localhost:5000",
-      description: "Local development server",
-    },
-    {
-      url: "https://pizza-hub-server-application.onrender.com",
-      description: "Production server",
-    },
-  ],
   components: {
     securitySchemes: {
       cookieAuth: {
@@ -277,4 +282,6 @@ const swaggerOptions = {
   },
 };
 
-export default swaggerOptions;
+const swaggerSpec = swaggerJSDoc(swaggerOptions);
+
+export default swaggerSpec;
