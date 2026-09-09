@@ -8,8 +8,12 @@ const swaggerSpec = {
   },
   servers: [
     {
-      url: "http://localhost:5000/api/v1",
+      url: "http://localhost:5000",
       description: "Local development server",
+    },
+    {
+      url: "https://pizza-hub-server-application.onrender.com",
+      description: "Production server",
     },
   ],
   components: {

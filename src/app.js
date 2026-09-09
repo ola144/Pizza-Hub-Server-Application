@@ -11,27 +11,32 @@ import paymentRoutes from "./routes/payment.routes.js";
 import adminOrderRoutes from "./routes/admin-order.routes.js";
 
 import { razorpayWebhook } from "./controllers/payment.controller.js";
+import swaggerSpec from "./swagger.js";
 
-const swaggerOptions = {
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title: "PizzaHub API",
-      version: "1.0.0",
-      description: "API documentation for the PizzaHub pizza ordering and inventory application.",
-    },
-    servers: [
-      {
-        url: "http://localhost:5000/api/v1",
-      },
-    ],
-  },
-  apis: ["./src/routes/*.js", "./src/controllers/*.js"],
-};
+// const swaggerOptions = {
+//   definition: {
+//     openapi: "3.0.0",
+//     info: {
+//       title: "PizzaHub API",
+//       version: "1.0.0",
+//       description: "API documentation for the PizzaHub pizza ordering and inventory application.",
+//     },
+//     servers: [
+//       {
+//         local_url: "http://localhost:5000",
+//         production_url: "https://pizza-hub-server-application.onrender.com"
+//       },
+//     ],
+//   },
+//   apis: ["./src/routes/*.js", "./src/controllers/*.js"],
+// };
 
-const swaggerSpec = swaggerJsdoc(swaggerOptions);
+const swaggerSpec = swaggerJsdoc(swaggerSpec);
 
-const allowedOrigins = ["http://localhost:5173"];
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://pizza-hub-server-application.onrender.com",
+];
 
 const app = express();
 
