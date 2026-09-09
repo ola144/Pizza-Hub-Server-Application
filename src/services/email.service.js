@@ -1,33 +1,35 @@
-import nodemailer from "nodemailer";
+import { BrevoClient } from "@getbrevo/brevo";
 
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST,
-  port: Number(process.env.EMAIL_PORT),
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD,
-  },
-  connectionTimeout: 60000,
-  greetingTimeout: 60000,
-  socketTimeout: 60000,
+const brevo = new BrevoClient({
+  apiKey: process.env.BREVO_API_KEY,
 });
 
-transporter.verify((error, success) => {
-  if (error) {
-    console.error("SMTP verification failed:", error);
-  } else {
-    console.log("SMTP server is ready:", success);
+export const sendEmail = async ({ to, subject, html, text }) => {
+  try {
+    const response = await brevo.transactionalEmails.sendTransacEmail({
+      sender: {
+        name: "PizzaHub",
+        email: process.env.EMAIL_FROM,
+      },
+
+      to: Array.isArray(to) ? to.map((email) => ({ email })) : [{ email: to }],
+
+      subject,
+      htmlContent: html,
+
+      ...(text && {
+        textContent: text,
+      }),
+    });
+
+    console.log("Brevo email sent successfully:", response);
+
+    return response;
+  } catch (error) {
+    console.error("Brevo email error:", error?.response?.body || error);
+
+    throw error;
   }
-});
-
-export const sendEmail = async ({ to, subject, html }) => {
-  await transporter.sendMail({
-    from: process.env.EMAIL_FROM,
-    to,
-    subject,
-    html,
-  });
 };
 
 export const sendVerificationEmail = async (email, name, token) => {
