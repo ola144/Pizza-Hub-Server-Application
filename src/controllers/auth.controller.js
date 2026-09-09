@@ -238,7 +238,11 @@ export const forgotPassword = async (req, res) => {
       message: "If the email exists, a password reset link has been sent.",
     });
   } catch (error) {
-    console.error("Forgot password error:", error);
+    console.error("Forgot password error:", {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+    });
 
     return res.status(500).json({
       success: false,
