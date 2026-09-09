@@ -262,10 +262,10 @@ const swaggerOptions = {
                     status: {
                       type: "string",
                       enum: [
-                        "pending",
-                        "confirmed",
-                        "preparing",
-                        "ready",
+                        "pending_payment",
+                        "order_received",
+                        "in_kitchen",
+                        "sent_to_delivery",
                         "delivered",
                         "cancelled",
                       ],
