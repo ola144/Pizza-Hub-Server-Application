@@ -37,7 +37,7 @@ const swaggerOptions = {
       },
     ],
     paths: {
-      "/auth/register": {
+      "/api/v1/auth/register": {
         post: {
           tags: ["Authentication"],
           summary: "Register a new customer account",
@@ -63,7 +63,7 @@ const swaggerOptions = {
           },
         },
       },
-      "/auth/login": {
+      "/api/v1/auth/login": {
         post: {
           tags: ["Authentication"],
           summary: "Log in a customer or admin",
@@ -88,7 +88,7 @@ const swaggerOptions = {
           },
         },
       },
-      "/auth/forgot-password": {
+      "/api/v1/auth/forgot-password": {
         post: {
           tags: ["Authentication"],
           summary: "Request password reset email",
@@ -111,7 +111,7 @@ const swaggerOptions = {
           },
         },
       },
-      "/auth/reset-password/{token}": {
+      "/api/v1/auth/reset-password/{token}": {
         post: {
           tags: ["Authentication"],
           summary: "Reset password using token",
@@ -142,7 +142,7 @@ const swaggerOptions = {
           },
         },
       },
-      "/inventory": {
+      "/api/v1/inventory": {
         get: {
           tags: ["Inventory"],
           summary: "Get all inventory items",
@@ -176,7 +176,7 @@ const swaggerOptions = {
           },
         },
       },
-      "/orders": {
+      "/api/v1/orders": {
         post: {
           tags: ["Orders"],
           summary:
@@ -266,7 +266,7 @@ const swaggerOptions = {
           },
         },
       },
-      "/orders/{id}": {
+      "/api/v1/orders/{id}": {
         get: {
           tags: ["Orders"],
           summary: "Get a specific order by id",
@@ -284,7 +284,7 @@ const swaggerOptions = {
           },
         },
       },
-      "/admin/orders": {
+      "/api/v1/admin/orders": {
         get: {
           tags: ["Admin Orders"],
           summary: "Get all orders for admin dashboard",
@@ -311,7 +311,7 @@ const swaggerOptions = {
           },
         },
       },
-      "/admin/orders/{id}/status": {
+      "/api/v1/admin/orders/{id}/status": {
         patch: {
           tags: ["Admin Orders"],
           summary: "Update order status",
