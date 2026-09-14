@@ -1,11 +1,25 @@
 import { Server } from "socket.io";
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://pizza-hub-server-application.onrender.com",
+  "https://pizza-hub-kappa.vercel.app",
+];
+
 let io;
 
-export const initializeSocket = (httpServer) => {
-  io = new Server(httpServer, {
+export const initializeSocket = (socket) => {
+  io = new Server(socket, {
     cors: {
-      origin: process.env.CLIENT_URL,
+      origin: (origin, callback) => {
+        if (!origin) return callback(null, true);
+
+        if (allowedOrigins.includes(origin)) {
+          return callback(null, origin);
+        }
+
+        callback(new Error("Not allowed by CORS"));
+      },
       credentials: true,
     },
   });
@@ -14,9 +28,12 @@ export const initializeSocket = (httpServer) => {
     console.log(`Socket connected: ${socket.id}`);
 
     socket.on("join-order", (orderId) => {
+      console.log("📦 JOIN ORDER RECEIVED:", orderId);
       socket.join(`order:${orderId}`);
 
       console.log(`${socket.id} joined order:${orderId}`);
+
+      console.log("Current rooms:", [...socket.rooms]);
     });
 
     socket.on("leave-order", (orderId) => {

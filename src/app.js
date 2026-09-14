@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import swaggerUi from "swagger-ui-express";
-import swaggerJsdoc from "swagger-jsdoc";
 import authRoutes from "./routes/auth.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import inventoryRoutes from "./routes/inventory.routes.js";
@@ -12,6 +11,8 @@ import adminOrderRoutes from "./routes/admin-order.routes.js";
 
 import { razorpayWebhook } from "./controllers/payment.controller.js";
 import swaggerSpec from "./swagger.js";
+import { initializeSocket } from "./socket/socket.js";
+import http from "http";
 
 const allowedOrigins = [
   "http://localhost:5173",
@@ -64,4 +65,8 @@ app.use("/api/v1/orders", orderRoutes);
 app.use("/api/v1/payments", paymentRoutes);
 app.use("/api/v1/admin/orders", adminOrderRoutes);
 
-export default app;
+const server = http.createServer(app);
+
+initializeSocket(server);
+
+export default server;

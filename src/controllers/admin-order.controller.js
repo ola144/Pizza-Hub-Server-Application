@@ -1,8 +1,7 @@
-import { get } from "mongoose";
 import Order from "../models/Order.js";
 
 import { updateOrderStatus } from "../services/order-status.service.js";
-import { getIO } from "../socket/index.js";
+import { getIO } from "../socket/socket.js";
 
 export const getAllOrders = async (req, res) => {
   try {
@@ -38,8 +37,6 @@ export const getAllOrders = async (req, res) => {
       orders,
     });
   } catch (error) {
-    console.error("Get admin orders error:", error);
-
     return res.status(500).json({
       success: false,
       message: "Failed to fetch orders",
@@ -66,8 +63,6 @@ export const getAdminOrderById = async (req, res) => {
       order,
     });
   } catch (error) {
-    console.error("Get admin order error:", error);
-
     return res.status(500).json({
       success: false,
       message: "Failed to fetch order",
@@ -92,10 +87,13 @@ export const changeOrderStatus = async (req, res) => {
       adminId: req.user._id,
     });
 
+    //Emit realtime update
     const io = getIO();
 
-    io.to(`order:${order._id}`).emit("order-status-updated", {
-      orderId: order._id,
+    const room = `order:${order._id.toString()}`;
+
+    io.to(room).emit("order-status-updated", {
+      orderId: order._id.toString(),
       status: order.status,
       order,
     });
@@ -106,8 +104,6 @@ export const changeOrderStatus = async (req, res) => {
       order,
     });
   } catch (error) {
-    console.error("Change order status error:", error);
-
     return res.status(400).json({
       success: false,
       message: error.message,

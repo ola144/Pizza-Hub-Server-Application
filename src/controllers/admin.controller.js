@@ -1,7 +1,6 @@
 import bcrypt from "bcryptjs";
 
 import Admin from "../models/Admin.js";
-import Order from "../models/Order.js";
 
 import { generateToken, setAuthCookie } from "../utils/auth.js";
 

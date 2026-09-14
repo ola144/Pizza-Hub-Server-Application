@@ -1,11 +1,10 @@
 import "dotenv/config";
-import http from "http";
 
-import app from "./app.js";
 import connectDB from "./config/db.js";
 import { seedAdmin } from "./utils/seedAdmin.js";
-import { initializeSocket } from "./socket/index.js";
 import { startLowStockJob } from "./jobs/low-stock.job.js";
+
+import server from "./app.js";
 
 const PORT = process.env.PORT || 5000;
 
@@ -17,11 +16,7 @@ const startServer = async () => {
 
     startLowStockJob();
 
-    const httpServer = http.createServer(app);
-
-    initializeSocket(httpServer);
-
-    httpServer.listen(PORT, () => {
+    server.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
   } catch (error) {
