@@ -284,6 +284,28 @@ const swaggerOptions = {
           },
         },
       },
+      "/api/v1/admin/users": {
+        get: {
+          tags: ["Admin Users"],
+          summary: "Get all users for admin dashboard",
+          security: [{ cookieAuth: [] }],
+          parameters: [
+            {
+              name: "page",
+              in: "query",
+              schema: { type: "integer", default: 1 },
+            },
+            {
+              name: "limit",
+              in: "query",
+              schema: { type: "integer", default: 10 },
+            },
+          ],
+          responses: {
+            200: { description: "Paginated admin orders returned" },
+          },
+        },
+      },
       "/api/v1/admin/orders": {
         get: {
           tags: ["Admin Orders"],
