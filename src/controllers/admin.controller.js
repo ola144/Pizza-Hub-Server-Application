@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 
 import Admin from "../models/Admin.js";
+import User from "../models/User.js";
 
 import { generateToken, setAuthCookie } from "../utils/auth.js";
 
@@ -55,6 +56,75 @@ export const adminLogin = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Admin login failed",
+    });
+  }
+};
+
+export const getAllUsers = async (req, res) => {
+  try {
+    const { page = 1, limit = 10 } = req.query;
+
+    const pageNumber = Number(page);
+    const limitNumber = Number(limit);
+
+    const skip = (pageNumber - 1) * limitNumber;
+
+    const [users, total] = await Promise.all([
+      User.aggregate([
+        {
+          $lookup: {
+            from: "orders",
+            localField: "_id",
+            foreignField: "user",
+            as: "orders",
+          },
+        },
+        {
+          $addFields: {
+            ordersCount: { $size: "$orders" },
+            totalSpent: { $sum: "$orders.total" },
+          },
+        },
+        {
+          $project: {
+            orders: 0,
+            password: 0,
+            emailVerificationToken: 0,
+            emailVerificationExpires: 0,
+            passwordResetToken: 0,
+            passwordResetExpires: 0,
+            __v: 0,
+          },
+        },
+        {
+          $sort: {
+            createdAt: -1,
+          },
+        },
+        {
+          $skip: skip,
+        },
+        {
+          $limit: limitNumber,
+        },
+      ]),
+
+      User.countDocuments(),
+    ]);
+
+    res.status(200).json({
+      success: true,
+      message: "Users fetched successfully!",
+      count: users.length,
+      total,
+      page: pageNumber,
+      pages: Math.ceil(total / limitNumber),
+      users,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
     });
   }
 };

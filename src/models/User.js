@@ -23,6 +23,11 @@ const userSchema = new mongoose.Schema(
       select: false,
     },
 
+    lastLogin: {
+      type: Date,
+      default: null,
+    },
+
     role: {
       type: String,
       enum: ["user"],
