@@ -5,7 +5,7 @@ import { getIO } from "../socket/socket.js";
 
 export const getAllOrders = async (req, res) => {
   try {
-    const { status, page = 1, limit = 20 } = req.query;
+    const { status, page = 1, limit = 10 } = req.query;
 
     const filter = {};
 

@@ -158,6 +158,10 @@ export const login = async (req, res) => {
 
     setAuthCookie(res, token);
 
+    await User.findByIdAndUpdate(user._id, {
+      lastLogin: new Date(),
+    });
+
     return res.json({
       success: true,
       message: "Login successful",
