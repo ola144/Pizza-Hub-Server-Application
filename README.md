@@ -87,6 +87,7 @@ server/
 - GET /api/v1/admin
 - POST /api/v1/admin/inventory
 - PATCH /api/v1/admin/inventory/:id
+- GET /api/v1/admin/users
 - GET /api/v1/admin/orders
 - GET /api/v1/admin/orders/:id
 - PATCH /api/v1/admin/orders/:id/status
