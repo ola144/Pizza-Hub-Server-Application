@@ -65,6 +65,13 @@ app.use("/api/v1/orders", orderRoutes);
 app.use("/api/v1/payments", paymentRoutes);
 app.use("/api/v1/admin/orders", adminOrderRoutes);
 
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: `Route ${req.originalUrl} not found`,
+  });
+});
+
 const server = http.createServer(app);
 
 initializeSocket(server);
